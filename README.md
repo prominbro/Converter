@@ -293,7 +293,7 @@ curl -sS -X POST https://kfwl.1337.cx/api/incy/decrypt \
 
 | Режим | Кнопка | Что делает |
 |-------|--------|------------|
-| **🤖 Авто** | `data-pm="auto"` | Отправляет URL на `/api/incy/parser/auto` — сервер сам подбирает UA, HWID, заголовки, разбирает HTML, раскрывает JSON. |
+| **🤖 Авто** | `data-pm="auto"` | Отправляет URL на `/api/incy/parser/auto` — сервер сам подбир��ет UA, HWID, заголовки, разбирает HTML, раскрывает JSON. |
 | **⚙️ Свой UA** | `data-pm="custom"` | Ручной User-Agent, HWID (или галка «генерировать случайно»), доп. заголовки. Запрос идёт через `/api/fetch`. |
 | **∅ Без UA** | `data-pm="noua"` | Запрос без `User-Agent` вообще. Для серверов, которые запрещают браузерные UA. |
 
@@ -315,7 +315,7 @@ curl -sS -X POST https://kfwl.1337.cx/api/incy/decrypt \
 
 1. **`unwrapHtmlSub`** — снимает HTML-обёртку (`<pre>`, `<br>`, entities) и достаёт плоский текст.
 2. **`detectAppFE`** — ищет маркер клиента уже на клиенте (если сервер не справился) → берёт UA+HWID этого клиента → ре-фетчит через `/api/fetch`.
-3. **UA-fallback chain** — если маркеров нет, последовательно пробует: **Happ → INCY → V2RayTUN → Clash Meta**. Для каждого: подкидывает соответствующий UA, HWID нужного формата. Для INCY — ещё весь букет `x-app-version`, `x-client`, `x-device-os`, `x-ver-os`, `x-device-model`. Если ответ HTML — следующий, если JSON — раскрывает поля, если plain — проверяет на ключи.
+3. **UA-fallback chain** — если маркеров нет, последовательно пробует: **Happ → INCY → V2RayTUN → Clash Meta**. Для каждого: подкидывает соответствующий UA и HWID нужного формата. Если ответ HTML — следующий, если JSON — раскрывает поля, если plain — проверяет на ключи.
 4. **`resolveIncy`** — если в тексте найден `incy://crypt1/...`, дёргает `/api/incy/decrypt`.
 5. **`resolveHapp`** — если найден `happ://crypt5/...`, расшифровывает через выбранный источник (**Авто / API / Local**). Если результат — URL, рекурсивно тянет его как подписку.
 6. **`decodeSub`** — если строка без `://`, пробует base64-decode.
@@ -332,7 +332,7 @@ curl -sS -X POST https://kfwl.1337.cx/api/incy/decrypt \
 | Клиент | User-Agent | HWID-формат | Доп. заголовки |
 |--------|-----------|-------------|----------------|
 | **Happ** | `Happ/3.24.0/Android` | 16-знач. alnum | `x-hwid` |
-| **INCY** | `INCY/3.2.2/android Dalvik/2.1.0` | UUID | `x-hwid`, `x-app-version: 3.2.2`, `x-client: INCY`, `x-device-os: Android`, `x-ver-os: 13`, `x-device-model: Pixel 7` |
+| **INCY** | `INCY/3.2.2/android` | UUID | `x-hwid` |
 | **V2RayTUN** | `v2raytun/5.23.74/android` | UUID | — |
 | **V2RayNG** | `v2rayNG/1.10.7` | 16-знач. hex | — |
 | **Clash Meta** | `ClashMetaForAndroid/2.11.7.Meta` | UUID | — |
